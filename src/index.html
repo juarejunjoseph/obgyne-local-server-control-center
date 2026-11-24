@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OB-Gyne Server Control Center — TEST</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">LOCAL SERVER MANAGEMENT</div>
+      <h1>OB-Gyne Server Control Center</h1>
+    </div>
+    <div class="header-actions">
+      <span class="test-badge">TEST MODE</span>
+      <span id="overallStatus" class="status-pill offline">Checking</span>
+      <span class="machine-name">Server laptop</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="nav active">Dashboard</button>
+      <button class="nav">Services</button>
+      <button class="nav">Network</button>
+      <button class="nav">Database</button>
+      <button class="nav">Backups</button>
+      <button class="nav">Import / Export</button>
+      <button class="nav">Online Sync</button>
+      <button class="nav">Activity Log</button>
+      <div class="sidebar-note">Fictional test data only.<br>No production connection.</div>
+    </aside>
+
+    <main>
+      <section class="notice">
+        <strong>Prototype environment</strong>
+        <span>The demo portal is functional. PostgreSQL, SQL import, firewall changes, and Supabase sync are not activated yet.</span>
+      </section>
+
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-title">System status</div>
+          <div class="status-list">
+            <div><span>JavaScript web application</span><span id="appState" class="tag">Checking</span></div>
+            <div><span>PostgreSQL database</span><span id="dbState" class="tag">Checking</span></div>
+            <div><span>Local clinic network</span><span id="networkState" class="tag">Checking</span></div>
+            <div><span>Supabase online connection</span><span class="tag neutral">Not configured</span></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">Network</div>
+          <dl class="facts">
+            <dt>Server name</dt><dd>Traveling Server Laptop</dd>
+            <dt>Local IP</dt><dd id="localIp">Checking…</dd>
+            <dt>Portal address</dt><dd id="portalAddress">Checking…</dd>
+            <dt>Connected computers</dt><dd id="clientCount">0</dd>
+          </dl>
+        </section>
+      </div>
+
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-title">Services</div>
+          <div class="service-row"><span>OB-Gyne demo portal</span><strong id="portalService">Stopped</strong></div>
+          <div class="service-row"><span>PostgreSQL database</span><strong id="databaseService">Not detected</strong></div>
+          <div class="button-row">
+            <button id="startButton" class="primary">Start portal</button>
+            <button id="stopButton">Stop portal</button>
+            <button id="restartButton">Restart</button>
+            <button id="openPortalButton">Open portal</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">Database</div>
+          <div class="metrics">
+            <div><span>Patients</span><strong>0</strong><small>test database</small></div>
+            <div><span>Clinical documents</span><strong>0</strong><small>test database</small></div>
+            <div><span>Pending changes</span><strong>0</strong><small>local queue</small></div>
+            <div><span>Last sync</span><strong>—</strong><small>not configured</small></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-title">Backup and data</div>
+          <div class="button-grid">
+            <button id="backupButton">Create test backup</button>
+            <button id="backupFolderButton">Open backup folder</button>
+            <button data-disabled="Export SQL">Export SQL</button>
+            <button data-disabled="Import SQL">Import SQL</button>
+            <button data-disabled="Restore backup">Restore backup</button>
+            <button data-disabled="Online sync">Check online sync</button>
+          </div>
+          <p id="backupMessage" class="small-note">No backup created in this session.</p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">Connected computers</div>
+          <div id="clientList" class="client-list"><div class="empty">Open the demo portal from another device to test detection.</div></div>
+        </section>
+      </div>
+
+      <section class="panel activity-panel">
+        <div class="panel-title">Activity log</div>
+        <table>
+          <thead><tr><th>Time</th><th>Event</th><th>Details</th></tr></thead>
+          <tbody id="activityRows"><tr><td colspan="3">Loading…</td></tr></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <footer><span class="footer-dot"></span><span id="footerText">Checking local server…</span></footer>
+  <script src="renderer.js"></script>
+</body>
+</html>

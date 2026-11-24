@@ -1,0 +1,45 @@
+{
+  "name": "obgyne-local-server-control-center",
+  "version": "0.1.0-test",
+  "private": true,
+  "author": "Jun Joseph Juare",
+  "description": "Test prototype for the OB-Gyne Local Server Control Center",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "pack": "electron-builder --dir",
+    "dist:win": "electron-builder --win nsis --x64",
+    "dist:mac": "electron-builder --mac dmg"
+  },
+  "devDependencies": {
+    "electron": "^39.2.4",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "ph.obgyne.localserver.controlcenter",
+    "productName": "OB-Gyne Server Control Center TEST",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "README.md"
+    ],
+    "win": {
+      "target": "nsis",
+      "artifactName": "OB-Gyne-Server-Control-Center-TEST-${version}-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "allowScripts": {
+    "electron@39.8.10": true
+  }
+}
