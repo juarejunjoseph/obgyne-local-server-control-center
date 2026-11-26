@@ -1,0 +1,211 @@
+{
+  "app": "OB-Gyne Patient Management Portal",
+  "version": "27.0.0-alpha.28",
+  "exportedAt": "2026-11-26T14:00:00.000Z",
+  "users": [
+    { "id": "doctor1", "username": "doctor", "fullName": "Dr. Maria Santos", "role": "doctor", "status": "Active", "permissions": ["all"] },
+    { "id": "secretary1", "username": "secretary", "fullName": "Anna Reyes", "role": "staff", "status": "Active", "permissions": ["patients", "charts", "appointments", "print"] }
+  ],
+  "patients": [
+    {
+      "id": "pat-001",
+      "recordDate": "2026-01-15",
+      "name": "Maria Clara Delgado",
+      "age": 28,
+      "sex": "Female",
+      "civilStatus": "Married",
+      "contact": "0917-123-4567",
+      "patientStatus": "Low Risk Pregnancy",
+      "referredBy": "Dr. Test Doctor",
+      "address": "123 Rizal St., Makati City",
+      "weight": 62.5,
+      "bp": "110/70",
+      "bmi": "23.1",
+      "occupation": "Teacher",
+      "chiefComplaint": "Routine prenatal check-up",
+      "hpi": "G2P1 at 24 weeks AOG, referred for routine prenatal care. No complaints.",
+      "pmh": [],
+      "obgyn": { "gravidity": 2, "parity": 1, "lmp": "2026-01-15", "edc": "2026-10-22" },
+      "obScore": {},
+      "familyHistory": {},
+      "personalSocial": {},
+      "obgynHistory": "Previous NSVD 2023, uncomplicated",
+      "familySocial": "Non-smoker, non-drinker",
+      "physicalExam": "Fundic height 24 cm, FHB +, Cephalic presentation",
+      "diagnosis": "G2P1 (1001) at 24 weeks AOG, Low Risk Pregnancy",
+      "plan": "Continue prenatal vitamins, routine labs, follow-up in 4 weeks",
+      "createdAt": "2026-01-15T09:00:00.000Z",
+      "updatedAt": "2026-01-15T09:00:00.000Z"
+    },
+    {
+      "id": "pat-002",
+      "recordDate": "2026-02-20",
+      "name": "Rosa Aquino",
+      "age": 35,
+      "sex": "Female",
+      "civilStatus": "Single",
+      "contact": "0918-987-6543",
+      "patientStatus": "Gynecologic Consult",
+      "referredBy": "Self",
+      "address": "456 Bonifacio Ave., Quezon City",
+      "weight": 68.0,
+      "bp": "120/80",
+      "bmi": "24.5",
+      "occupation": "Nurse",
+      "chiefComplaint": "Irregular menstrual cycles",
+      "hpi": "35yo, consulted for oligomenorrhea x 6 months. Cycles every 45-60 days. Negative pregnancy test.",
+      "pmh": [],
+      "obgyn": { "gravidity": 0, "parity": 0 },
+      "obScore": {},
+      "familyHistory": {},
+      "personalSocial": {},
+      "obgynHistory": "Menarche 12yo, previously regular 28-day cycles",
+      "familySocial": "Non-smoker, occasional alcohol",
+      "physicalExam": "Normal pelvic exam, no masses",
+      "diagnosis": "Oligomenorrhea, r/o PCOS",
+      "plan": "Hormonal profile, pelvic ultrasound, follow-up in 2 weeks",
+      "createdAt": "2026-02-20T10:30:00.000Z",
+      "updatedAt": "2026-02-20T10:30:00.000Z"
+    },
+    {
+      "id": "pat-003",
+      "recordDate": "2026-03-10",
+      "name": "Jennifer Lim",
+      "age": 31,
+      "sex": "Female",
+      "civilStatus": "Married",
+      "contact": "0919-555-1234",
+      "patientStatus": "High Risk Pregnancy",
+      "referredBy": "Dr. Test Doctor",
+      "address": "789 Mabini St., Pasig City",
+      "weight": 75.0,
+      "bp": "135/85",
+      "bmi": "27.2",
+      "occupation": "Accountant",
+      "chiefComplaint": "Prenatal check-up, history of GDM",
+      "hpi": "G3P2 at 28 weeks AOG, history of gestational diabetes in previous pregnancy. On diet control.",
+      "pmh": [{"condition": "Gestational Diabetes Mellitus", "year": "2024", "status": "Resolved"}],
+      "obgyn": { "gravidity": 3, "parity": 2, "lmp": "2026-02-01", "edc": "2026-11-08" },
+      "obScore": {},
+      "familyHistory": { "diabetes": "Mother - Type 2 DM" },
+      "personalSocial": {},
+      "obgynHistory": "Two previous NSVD, GDM in 2nd pregnancy diet-controlled",
+      "familySocial": "Non-smoker, non-drinker",
+      "physicalExam": "Fundic height 29 cm, FHB +, Cephalic, BP 135/85",
+      "diagnosis": "G3P2 (2002) at 28 weeks AOG, High Risk Pregnancy (Previous GDM, Obesity)",
+      "plan": "OGTT today, continue diabetic diet, fetal monitoring, follow-up in 2 weeks",
+      "createdAt": "2026-03-10T08:15:00.000Z",
+      "updatedAt": "2026-03-10T08:15:00.000Z"
+    }
+  ],
+  "charts": [
+    {
+      "id": "chart-001",
+      "patientId": "pat-001",
+      "type": "initialVisit",
+      "documentType": "initialVisit",
+      "visitId": "visit-001",
+      "visitDate": "2026-01-15",
+      "data": {
+        "visitId": "visit-001",
+        "visitDate": "2026-01-15",
+        "visitType": "initial",
+        "patientSnapshot": {
+          "name": "Maria Clara Delgado",
+          "age": 28,
+          "lmp": "2026-01-15",
+          "edc": "2026-10-22",
+          "gravidity": 2,
+          "parity": 1
+        }
+      },
+      "createdAt": "2026-01-15T09:30:00.000Z",
+      "updatedAt": "2026-01-15T09:30:00.000Z"
+    },
+    {
+      "id": "chart-002",
+      "patientId": "pat-001",
+      "type": "followup",
+      "documentType": "followup",
+      "visitId": "visit-002",
+      "visitDate": "2026-02-12",
+      "followUpId": "visit-001",
+      "data": {
+        "visitId": "visit-002",
+        "visitDate": "2026-02-12",
+        "visitType": "followup",
+        "subjective": "Feeling well, no complaints. Fetal movement felt.",
+        "objective": "FH 28 cm, FHB 140 bpm, BP 110/70",
+        "assessment": "G2P1 at 28 weeks AOG, Low Risk, Fetal growth appropriate",
+        "plan": "Routine labs, Tdap vaccine, follow-up in 4 weeks"
+      },
+      "createdAt": "2026-02-12T09:00:00.000Z",
+      "updatedAt": "2026-02-12T09:00:00.000Z"
+    },
+    {
+      "id": "chart-003",
+      "patientId": "pat-002",
+      "type": "initialVisit",
+      "documentType": "initialVisit",
+      "visitId": "visit-003",
+      "visitDate": "2026-02-20",
+      "data": {
+        "visitId": "visit-003",
+        "visitDate": "2026-02-20",
+        "visitType": "initial",
+        "patientSnapshot": {
+          "name": "Rosa Aquino",
+          "age": 35,
+          "lmp": "2026-01-15",
+          "gravidity": 0,
+          "parity": 0
+        }
+      },
+      "createdAt": "2026-02-20T11:00:00.000Z",
+      "updatedAt": "2026-02-20T11:00:00.000Z"
+    },
+    {
+      "id": "chart-004",
+      "patientId": "pat-003",
+      "type": "initialVisit",
+      "documentType": "initialVisit",
+      "visitId": "visit-004",
+      "visitDate": "2026-03-10",
+      "data": {
+        "visitId": "visit-004",
+        "visitDate": "2026-03-10",
+        "visitType": "initial",
+        "patientSnapshot": {
+          "name": "Jennifer Lim",
+          "age": 31,
+          "lmp": "2026-02-01",
+          "edc": "2026-11-08",
+          "gravidity": 3,
+          "parity": 2
+        }
+      },
+      "createdAt": "2026-03-10T08:45:00.000Z",
+      "updatedAt": "2026-03-10T08:45:00.000Z"
+    }
+  ],
+  "inventory": {
+    "MedicationLibrary": [
+      { "medicineId": "med-001", "genericName": "Ferrous Sulfate", "brandName": "Ferroquel", "strength": "300mg", "dosageForm": "Tablet", "route": "Oral", "category": "Hematinic", "packagingType": "Blister", "unit": "Tablet", "unitsPerPackage": 30, "manufacturer": "Unilab", "defaultSupplier": "MedExpress", "description": "Iron supplement for anemia prevention", "defaultSig": ["1 tablet"], "defaultTimes": ["08:00"], "inventoryTrackingEnabled": true, "lowStockThreshold": 50, "reorderQuantity": 200, "maximumStock": 500, "status": "Active" },
+      { "medicineId": "med-002", "genericName": "Folic Acid", "brandName": "Folacid", "strength": "5mg", "dosageForm": "Tablet", "route": "Oral", "category": "Vitamin", "packagingType": "Bottle", "unit": "Tablet", "unitsPerPackage": 100, "manufacturer": "United Laboratories", "defaultSupplier": "MedExpress", "description": "Folate supplement for neural tube defect prevention", "defaultSig": ["1 tablet"], "defaultTimes": ["08:00"], "inventoryTrackingEnabled": true, "lowStockThreshold": 30, "reorderQuantity": 100, "maximumStock": 300, "status": "Active" },
+      { "medicineId": "med-003", "genericName": "Calcium Carbonate", "brandName": "Caltrate", "strength": "500mg", "dosageForm": "Tablet", "route": "Oral", "category": "Mineral", "packagingType": "Bottle", "unit": "Tablet", "unitsPerPackage": 60, "manufacturer": "GSK", "defaultSupplier": "PharmaLink", "description": "Calcium supplement for pregnancy", "defaultSig": ["1 tablet"], "defaultTimes": ["08:00", "20:00"], "inventoryTrackingEnabled": true, "lowStockThreshold": 20, "reorderQuantity": 60, "maximumStock": 200, "status": "Active" }
+    ],
+    "MedicineBatches": [],
+    "PhysicalCountSessions": [],
+    "PhysicalCountItems": [],
+    "MedicineAdjustments": [],
+    "MedicineLedger": [],
+    "InventoryAuditLog": [],
+    "settings": {}
+  },
+  "settings": {
+    "clinicName": "Test OB-Gyne Clinic",
+    "doctorName": "Dr. Maria Santos",
+    "clinicAddress": "123 Test Street, Test City",
+    "clinicPhone": "02-123-4567"
+  }
+}
