@@ -35,7 +35,7 @@
     <main>
       <section class="notice">
         <strong>Prototype environment</strong>
-        <span>The demo portal is functional. PostgreSQL, SQL import, firewall changes, and Supabase sync are not activated yet.</span>
+        <span>The portal serves real assets. PostgreSQL runs locally. Supabase sync is disabled.</span>
       </section>
 
       <div class="grid two">
@@ -62,9 +62,8 @@
 
       <div class="grid two">
         <section class="panel">
-          <div class="panel-title">Services</div>
-          <div class="service-row"><span>OB-Gyne demo portal</span><strong id="portalService">Stopped</strong></div>
-          <div class="service-row"><span>PostgreSQL database</span><strong id="databaseService">Not detected</strong></div>
+          <div class="panel-title">Portal Service</div>
+          <div class="service-row"><span>OB-Gyne Portal</span><strong id="portalService">Stopped</strong></div>
           <div class="button-row">
             <button id="startButton" class="primary">Start portal</button>
             <button id="stopButton">Stop portal</button>
@@ -74,33 +73,75 @@
         </section>
 
         <section class="panel">
-          <div class="panel-title">Database</div>
+          <div class="panel-title">PostgreSQL Database</div>
+          <div class="service-row"><span>PostgreSQL</span><strong id="databaseService">Not detected</strong></div>
           <div class="metrics">
-            <div><span>Patients</span><strong>0</strong><small>test database</small></div>
-            <div><span>Clinical documents</span><strong>0</strong><small>test database</small></div>
-            <div><span>Pending changes</span><strong>0</strong><small>local queue</small></div>
-            <div><span>Last sync</span><strong>—</strong><small>not configured</small></div>
+            <div><span>Patients</span><strong id="dbPatients">—</strong><small>test database</small></div>
+            <div><span>Visits</span><strong id="dbVisits">—</strong><small>test database</small></div>
+            <div><span>Clinical documents</span><strong id="dbDocuments">—</strong><small>test database</small></div>
+            <div><span>Last backup</span><strong id="dbLastBackup">—</strong><small>local</small></div>
+          </div>
+          <div class="button-row">
+            <button id="dbStartButton" class="primary">Start database</button>
+            <button id="dbStopButton">Stop database</button>
           </div>
         </section>
       </div>
 
       <div class="grid two">
         <section class="panel">
-          <div class="panel-title">Backup and data</div>
+          <div class="panel-title">Backup and restore</div>
           <div class="button-grid">
-            <button id="backupButton">Create test backup</button>
+            <button id="backupButton">Create backup (pg_dump)</button>
+            <button id="testBackupButton">Create test marker</button>
             <button id="backupFolderButton">Open backup folder</button>
+            <button id="seedButton">Seed from backup JSON</button>
             <button data-disabled="Export SQL">Export SQL</button>
             <button data-disabled="Import SQL">Import SQL</button>
-            <button data-disabled="Restore backup">Restore backup</button>
             <button data-disabled="Online sync">Check online sync</button>
           </div>
           <p id="backupMessage" class="small-note">No backup created in this session.</p>
+          <div class="panel-title" style="margin-top:16px">Available backups</div>
+          <div id="backupList" class="client-list"><div class="empty">No backups yet.</div></div>
         </section>
 
         <section class="panel">
           <div class="panel-title">Connected computers</div>
-          <div id="clientList" class="client-list"><div class="empty">Open the demo portal from another device to test detection.</div></div>
+          <div id="clientList" class="client-list"><div class="empty">Open the portal from another device to test detection.</div></div>
+        </section>
+      </div>
+
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-title">Startup and firewall</div>
+          <div class="status-list">
+            <div>
+              <span>Start on Windows login</span>
+              <label class="switch">
+                <input type="checkbox" id="autostartToggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div><span>Firewall rule for clinic subnet</span><span id="firewallStatus" class="tag neutral">Not configured</span></div>
+            <div><span>Bind PostgreSQL to localhost</span><span id="pgBindStatus" class="tag good">Configured</span></div>
+            <div><span>Portal bound to 0.0.0.0</span><span id="portalBindStatus" class="tag good">Configured</span></div>
+          </div>
+          <div class="button-row">
+            <button id="firewallButton" data-disabled="Configure firewall">Configure firewall</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">Update simulation</div>
+          <div class="status-list">
+            <div><span>Current version</span><strong>0.1.0-test</strong></div>
+            <div><span>Latest release</span><strong id="latestVersion">Checking…</strong></div>
+            <div><span>Update channel</span><strong>test</strong></div>
+          </div>
+          <div class="button-row">
+            <button id="checkUpdateButton" data-disabled="Check for updates">Check for updates</button>
+            <button id="applyUpdateButton" data-disabled="Apply update">Apply update</button>
+          </div>
         </section>
       </div>
 

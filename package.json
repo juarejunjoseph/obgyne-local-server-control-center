@@ -12,6 +12,9 @@
     "dist:win": "electron-builder --win nsis --x64",
     "dist:mac": "electron-builder --mac dmg"
   },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
   "devDependencies": {
     "electron": "^39.2.4",
     "electron-builder": "^26.0.12"
@@ -27,6 +30,12 @@
       "src/**/*",
       "package.json",
       "README.md"
+    ],
+    "extraResources": [
+      {
+        "from": "src/assets",
+        "to": "assets"
+      }
     ],
     "win": {
       "target": "nsis",
