@@ -136,12 +136,68 @@ $('autostartToggle').addEventListener('change', async (e) => {
 $('firewallButton').addEventListener('click', () => window.controlCenter.prototypeNotice('Configure firewall'));
 
 // Update buttons
-$('checkUpdateButton').addEventListener('click', () => window.controlCenter.prototypeNotice('Check for updates'));
+$('checkUpdateButton').addEventListener('click', async () => {
+  const updates = await window.controlCenter.checkForUpdates();
+  if (updates.available) {
+    if (confirm(`Update available: v${updates.latest}. Install from ${updates.url}?`)) {
+      window.open(updates.url, '_blank');
+    }
+  } else {
+    alert('No update available.');
+  }
+  $('latestVersion').textContent = updates.latest || updates.current || 'Check failed';
+});
 $('applyUpdateButton').addEventListener('click', () => window.controlCenter.prototypeNotice('Apply update'));
 
-document.querySelectorAll('[data-disabled]').forEach(button => {
-  button.addEventListener('click', () => window.controlCenter.prototypeNotice(button.dataset.disabled));
+// Google Drive buttons
+$('configureDriveButton').addEventListener('click', () => {
+  const token = prompt('Enter Google Drive OAuth token:');
+  const folderId = prompt('Enter Google Drive folder ID (optional):') || null;
+  if (token) {
+    window.controlCenter.configureGoogleDrive(token, folderId).then(r => {
+      refresh();
+    }).catch(e => alert('Configure failed: ' + e.message));
+  }
+});
+$('uploadToDriveButton').addEventListener('click', async () => {
+  const file = await window.controlCenter.createBackup();
+  const result = await window.controlCenter.uploadToGoogleDrive(file);
+  if (result) {
+    alert('Uploaded to Google Drive:\n' + result.name + '\n' + result.webViewLink);
+    refresh();
+  } else {
+    alert('Upload failed. Check configuration.');
+  }
 });
 
+// Recent activity display
+function updateRecentActivity() {
+  const activity = $('activityRows').querySelectorAll('tbody tr')[0] ?
+    Array.from($('activityRows').querySelectorAll('tbody tr')) : [];
+  const recent = activity.slice(0, 5);
+  $('recentActivity').innerHTML = recent.length
+    ? recent.map(r => r.outerHTML).join('')
+    : '<div class="empty">No recent activity.</div>';
+}
+
+document.querySelectorAll('[data-restore]').forEach(button => {
+  button.addEventListener('click', async () => {
+    if (confirm('Restore from ' + button.dataset.restore + '? This will replace current data.')) {
+      await window.controlCenter.restoreBackup(button.dataset.restore);
+      refresh();
+    }
+  });
+});
+
+// Google Drive config status
+async function updateDriveStatus() {
+  const config = await window.controlCenter.getGoogleDriveConfig();
+  $('driveConfigured').textContent = config.configured ? 'Yes' : 'No';
+  $('driveConfigured').className = 'tag ' + (config.configured ? 'good' : 'neutral');
+  const backups = await window.controlCenter.listBackups();
+  $('driveUploadCount').textContent = backups.length > 0 ? backups.length : '—';
+}
+
 refresh();
+updateDriveStatus();
 setInterval(refresh, 2500);

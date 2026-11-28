@@ -767,6 +767,138 @@ host    all             all             172.16.0.0/12           md5
     this.log('Backup', 'Test backup marker created: ' + path.basename(file));
     return file;
   }
+
+  // ============================================================
+  // Google Drive Upload (requires user configuration)
+  // ============================================================
+
+  async uploadToGoogleDrive(localPath, folderId = null) {
+    if (!fs.existsSync(localPath)) throw new Error('Backup file not found');
+
+    // Check for Google Drive configuration
+    const configPath = path.join(this.dataDirectory, 'gdrive-config.json');
+    if (!fs.existsSync(configPath)) {
+      throw new Error('Google Drive not configured. Set up credentials first via settings.');
+    }
+
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    const token = config.accessToken;
+
+    if (!token) {
+      throw new Error('Authentication required. Please sign in to Google Drive.');
+    }
+
+    const fileName = path.basename(localPath);
+    const fileContent = fs.readFileSync(localPath);
+    const fileSize = fileContent.length;
+
+    // Upload using Google Drive REST API
+    const fetch = (await import('node-fetch')).default;
+
+    const metadata = {
+      name: fileName,
+      mimeType: 'application/sql'
+    };
+    if (folderId) metadata.parents = [folderId];
+
+    try {
+      const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': `multipart/related; boundary=foo_bar_baz`
+        },
+        body: `
+--foo_bar_baz
+Content-Type: application/json; charset=UTF-8
+
+${JSON.stringify(metadata)}
+--foo_bar_baz
+Content-Type: application/sql
+
+${fileContent}
+--foo_bar_baz--`
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(`Upload failed: ${error.message || response.statusText}`);
+      }
+
+      const result = await response.json();
+      this.log('Upload', `Database uploaded to Google Drive: ${fileName}`);
+
+      return {
+        id: result.id,
+        name: result.name,
+        webViewLink: result.webViewLink
+      };
+    } catch (e) {
+      this.log('Upload', `Failed: ${e.message}`);
+      throw e;
+    }
+  }
+
+  async listGoogleDriveBackups(folderId = null) {
+    const configPath = path.join(this.dataDirectory, 'gdrive-config.json');
+    if (!fs.existsSync(configPath)) return [];
+
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    const token = config.accessToken;
+
+    if (!token) return [];
+
+    const fetch = (await import('node-fetch')).default;
+
+    try {
+      let url = 'https://www.googleapis.com/drive/v3/files?q=mimeType=\'application/sql\'';
+      if (folderId) {
+        url += `+and+\'${folderId}'\ in+parents`;
+      }
+      url += '&fields=files(id,name,createdTime,webViewLink)&orderBy=createdTime desc';
+
+      const response = await fetch(url, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!response.ok) return [];
+
+      const data = await response.json();
+      return data.files || [];
+    } catch {
+      return [];
+    }
+  }
+
+  // ============================================================
+  // GitHub Release Updates (for installer updates)
+  // ============================================================
+
+  async checkForUpdates(currentVersion, repo = 'juarejunjoseph/obgyne-local-server-control-center') {
+    const fetch = (await import('node-fetch')).default;
+
+    try {
+      const response = await fetch(`https://api.github.com/repos/${repo}/releases/latest`);
+      if (!response.ok) return { available: false };
+
+      const release = await response.json();
+      const latest = release.tag_name.replace(/^v/, '');
+
+      if (latest === currentVersion) {
+        return { available: false, current: currentVersion };
+      }
+
+      return {
+        available: true,
+        current: currentVersion,
+        latest,
+        notes: release.body || '',
+        url: release.html_url
+      };
+    } catch (e) {
+      return { available: false, error: e.message };
+    }
+  }
 }
 
 module.exports = { ServerManager };

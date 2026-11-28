@@ -145,6 +145,26 @@
         </section>
       </div>
 
+      <div class="grid two">
+        <section class="panel">
+          <div class="panel-title">Google Drive Backup</div>
+          <div class="status-list">
+            <div><span>Drive configured</span><span id="driveConfigured" class="tag neutral">No</span></div>
+            <div><span>Recent uploads</span><span id="driveUploadCount">—</span></div>
+          </div>
+          <div class="button-row">
+            <button id="configureDriveButton" data-disabled="Configure Drive">Configure Google Drive</button>
+            <button id="uploadToDriveButton" data-disabled="Upload backup">Upload backup</button>
+          </div>
+          <div class="small-note" style="margin-top:12px">Backups upload to Google Drive for offsite storage.</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">Recent Activity</div>
+          <div id="recentActivity" class="client-list"><div class="empty">No recent activity.</div></div>
+        </section>
+      </div>
+
       <section class="panel activity-panel">
         <div class="panel-title">Activity log</div>
         <table>

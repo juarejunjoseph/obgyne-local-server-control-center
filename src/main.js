@@ -216,6 +216,27 @@ ipcMain.handle('backup:list', async () => {
     .sort((a, b) => b.mtime - a.mtime);
 });
 
+// Google Drive upload
+ipcMain.handle('backup:uploadToDrive', async (_event, localPath, folderId) => {
+  return manager.uploadToGoogleDrive(localPath, folderId);
+});
+ipcMain.handle('backup:listOnDrive', async (_event, folderId) => {
+  return manager.listGoogleDriveBackups(folderId);
+});
+
+// Save Google Drive configuration
+ipcMain.handle('gdrive:configure', async (_event, token, folderId) => {
+  const config = { accessToken: token, folderId, updatedAt: new Date().toISOString() };
+  const configPath = path.join(app.getPath('userData'), 'gdrive-config.json');
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+  return { ok: true, configured: true };
+});
+ipcMain.handle('gdrive:config', async () => {
+  const configPath = path.join(app.getPath('userData'), 'gdrive-config.json');
+  if (!fs.existsSync(configPath)) return { configured: false };
+  return JSON.parse(fs.readFileSync(configPath, 'utf8'));
+});
+
 // Seed data
 ipcMain.handle('database:seed', async (_event, backupFile) => {
   const seedScript = path.join(__dirname, '..', '..', 'obgyne-supabase', 'scripts', 'seed-backup.mjs');
