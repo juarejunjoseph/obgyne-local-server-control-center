@@ -24,7 +24,12 @@ Install dependencies and run:
     npm run dist:win
     npm run dist:mac
 
-The Windows installer must be tested on a clean Windows 11 computer before production work.
+The Windows test installer is available as a GitHub Actions artifact from the
+"Build Windows test installer" workflow. Download the artifact ZIP, extract it,
+and run the Setup.exe file on Windows. The installer installs only the Electron
+control center. PostgreSQL must be installed and started separately. The
+workflow checks that the installer runs on a Windows build machine. Test the
+installer on a clean Windows 11 computer before relying on it.
 
 ## Safety
 
